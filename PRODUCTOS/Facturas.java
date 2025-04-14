@@ -1,3 +1,3 @@
-public interface Factursa {
+public interface Facturas {
 
 }
