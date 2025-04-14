@@ -4,20 +4,14 @@ public class Inventario {
     HashMap<String, Productos> productos = new HashMap<>();
     HashMap<String, Integer> cantidades = new HashMap<>(); // Mapa para almacenar las cantidades de cada producto
     
-    public void AgregarProducto (String nombre, Productos p){
+    public void AgregarProducto(String nombre, Productos p) {
         if (productos.containsKey(nombre)) {
             System.out.println("El producto ya existe en el inventario.");
         } else {
-            System.out.println("El producto no existe en el inventario.");
-        }
-        System.out.println("¿Cuántas unidades desea agregar?");
-        Scanner scanner = new Scanner(System.in);
-        int cantidad = scanner.nextInt();
-         // Aquí deberías obtener la cantidad de alguna manera, por ejemplo, a través de un escáner
-        p.setCantidadEnStock(cantidad);
-            System.out.println("Producto agregado al inventario: " + nombre);
             productos.put(nombre, p);
-    } 
+            System.out.println("Producto agregado al inventario: " + nombre);
+        }
+    }
 
 
     public void EliminarProducto (String nombre){
