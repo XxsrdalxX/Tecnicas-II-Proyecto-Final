@@ -13,7 +13,6 @@ public class Inventario {
         }
     }
 
-
     public void EliminarProducto (String nombre){
         if (productos.containsKey(nombre)) {
             productos.remove(nombre);

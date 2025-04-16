@@ -5,6 +5,7 @@ import java.awt.event.*;
 
 public class VentanaInventario extends JFrame {
     Inventario inventario = new Inventario();
+    private GestionFacturas gestorFacturas = new GestionFacturas(); // Instancia para manejar facturas
 
     JTextArea areaProductos;
     public VentanaInventario(){
@@ -50,6 +51,14 @@ btnEliminarProducto.addActionListener(new ActionListener() {
 });
 panelBotones.add(btnEliminarProducto);
 
+// Agregar botón para vender producto
+JButton btnVenderProducto = new JButton("Vender Producto");
+btnVenderProducto.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        venderProducto();
+    }
+});
+panelBotones.add(btnVenderProducto); // Añadir el botón al panel de botones
 
 // Botón para aplicar descuento
 JButton btnAplicarDescuento = new JButton("Aplicar Descuento");
@@ -102,8 +111,9 @@ public void agregarProducto() {
 
         // Crear el producto (usa una subclase anónima si tu clase Productos es abstracta)
         Productos nuevo = new Productos(nombre, descripcion, precio, cantidad) {};
-        mostrarProductos();
-        inventario.AgregarProducto(nombre, nuevo);
+        inventario.AgregarProducto(nombre, nuevo); // Agregar al inventario
+
+        mostrarProductos(); // Actualizar el área de texto inmediatamente
         JOptionPane.showMessageDialog(this, "Producto agregado correctamente.");
     } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(this, "Error: precio o cantidad inválida.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -161,6 +171,36 @@ public void buscarProducto() {
                       "\nPrecio: " + p.getPrecio() +
                       "\nCantidad en stock: " + p.getCantidadEnStock();
         JOptionPane.showMessageDialog(this, info, "Producto encontrado", JOptionPane.INFORMATION_MESSAGE);
+    } else {
+        JOptionPane.showMessageDialog(this, "El producto no existe en el inventario.");
+    }
+}
+
+// Método para vender un producto
+public void venderProducto() {
+    String nombre = JOptionPane.showInputDialog(this, "Ingrese el nombre del producto a vender:");
+    if (nombre == null || nombre.isEmpty()) return;
+
+    if (inventario.productos.containsKey(nombre)) {
+        try {
+            String cantidadStr = JOptionPane.showInputDialog(this, "Ingrese la cantidad a vender:");
+            int cantidad = Integer.parseInt(cantidadStr);
+
+            Productos producto = inventario.productos.get(nombre);
+
+            if (producto.getCantidadEnStock() >= cantidad) {
+                producto.setCantidadEnStock(producto.getCantidadEnStock() - cantidad);
+                mostrarProductos(); // Actualizar el área de texto
+                JOptionPane.showMessageDialog(this, "Venta realizada exitosamente.");
+
+                 // Crear factura
+                 gestorFacturas.crearFactura(nombre, cantidad, producto.getPrecio());
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay suficiente stock para realizar la venta.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Cantidad inválida.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     } else {
         JOptionPane.showMessageDialog(this, "El producto no existe en el inventario.");
     }
