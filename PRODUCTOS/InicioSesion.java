@@ -30,7 +30,7 @@ public class InicioSesion extends JFrame {
         iniciarSesionButton = new JButton("Iniciar Sesión");
         registrarButton = new JButton("Registrar");
 
-        // Añadir componentes al JFrame
+        // Componentes del JFrame
         add(usuarioLabel);
         add(usuarioField);
         add(contrasenaLabel);
@@ -81,7 +81,7 @@ public class InicioSesion extends JFrame {
 
         JButton registrarNuevoButton = new JButton("Registrar");
 
-        // Añadir componentes al JFrame de registro
+        // Componentes del JFrame de registro
         registroFrame.add(nuevoUsuarioLabel);
         registroFrame.add(nuevoUsuarioField);
         registroFrame.add(nuevaContrasenaLabel);
