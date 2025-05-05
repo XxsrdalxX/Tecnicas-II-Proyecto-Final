@@ -20,7 +20,9 @@ public class VentanaInventario extends JFrame {
         add(new JScrollPane(areaProductos), BorderLayout.CENTER);
 
         // Panel inferior con botones
-        JPanel panelBotones = new JPanel();
+        JPanel panelBotones = new JPanel(new GridLayout(3, 2, 10, 10)); // 3 filas, 2 columnas, separación de 10px
+        panelBotones.setBorder(BorderFactory.createTitledBorder("Opciones del Inventario"));
+
 
         // Botón para ver facturas del día
         JButton btnVerFacturasDelDia = new JButton("Ver Facturas del Día");
@@ -63,6 +65,7 @@ public class VentanaInventario extends JFrame {
 
     // Métodos para manejar el inventario
     public void mostrarProductos() {
+        
         StringBuilder sb = new StringBuilder();
         for (String nombre : productos.keySet()) {
             Productos p = productos.get(nombre);
@@ -88,6 +91,7 @@ public class VentanaInventario extends JFrame {
 
     public void agregarProducto() {
         try {
+            
             String nombre = JOptionPane.showInputDialog(this, "Ingrese el nombre del producto:");
             if (nombre == null || nombre.isEmpty()) return;
 
@@ -99,6 +103,10 @@ public class VentanaInventario extends JFrame {
 
             String cantidadStr = JOptionPane.showInputDialog(this, "Ingrese la cantidad en stock:");
             int cantidad = Integer.parseInt(cantidadStr);
+            if (productos.containsKey(nombre)) {
+                JOptionPane.showMessageDialog(this, "Ya existe un producto con ese nombre.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             Productos nuevo = new Productos(nombre, descripcion, precio, cantidad) {};
             productos.put(nombre, nuevo); // Agregar al inventario

@@ -43,8 +43,14 @@ public class InicioSesion extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String usuario = usuarioField.getText();
-                String contrasena = new String(contrasenaField.getPassword());
-        
+                String contrasena = new String(contrasenaField.getPassword()).trim();
+
+
+
+                if (usuario.isEmpty() || contrasena.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
+                    return;
+                }
                 if (usuarios.containsKey(usuario) && usuarios.get(usuario).equals(contrasena)) {
                     JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
                     inicioSesionExitoso = true; // Marca el inicio de sesión como exitoso
@@ -95,6 +101,11 @@ public class InicioSesion extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String nuevoUsuario = nuevoUsuarioField.getText();
                 String nuevaContrasena = new String(nuevaContrasenaField.getPassword());
+                
+                if (nuevoUsuario.isEmpty() || nuevaContrasena.isEmpty()) {
+                    JOptionPane.showMessageDialog(registroFrame, "Por favor, complete todos los campos.");
+                    return;
+                }
 
                 if (usuarios.containsKey(nuevoUsuario)) {
                     JOptionPane.showMessageDialog(registroFrame, "El usuario ya existe. Intente con otro nombre.");
@@ -109,9 +120,8 @@ public class InicioSesion extends JFrame {
         registroFrame.setVisible(true);
     }
 
-    
     public boolean isInicioSesionExitoso() {
         return inicioSesionExitoso;
     }
-    
+
 }
