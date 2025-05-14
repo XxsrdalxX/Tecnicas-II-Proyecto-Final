@@ -1,0 +1,4 @@
+Nombre: Celular
+Descripción: Iphone
+Precio: 2000.0
+Cantidad en stock: 500

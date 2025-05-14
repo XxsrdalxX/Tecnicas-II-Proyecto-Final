@@ -2,6 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class InicioSesion extends JFrame {
@@ -12,6 +17,7 @@ public class InicioSesion extends JFrame {
     private boolean inicioSesionExitoso = false;
     // Mapa para almacenar usuarios y contraseñas
     private HashMap<String, String> usuarios = new HashMap<>();
+    private final String archivoUsuarios = "usuarios.txt"; // Archivo para guardar usuarios
 
     public InicioSesion() {
         setTitle("Inicio de Sesión");
@@ -19,6 +25,8 @@ public class InicioSesion extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new GridLayout(3, 2));
+
+        cargarUsuarios(); // Cargar usuarios desde el archivo al iniciar
 
         // Componentes
         JLabel usuarioLabel = new JLabel("Usuario:");
@@ -111,6 +119,7 @@ public class InicioSesion extends JFrame {
                     JOptionPane.showMessageDialog(registroFrame, "El usuario ya existe. Intente con otro nombre.");
                 } else {
                     usuarios.put(nuevoUsuario, nuevaContrasena);
+                    guardarUsuarioEnArchivo(nuevoUsuario, nuevaContrasena);
                     JOptionPane.showMessageDialog(registroFrame, "Usuario registrado exitosamente.");
                     registroFrame.dispose(); // Cierra la ventana de registro
                 }
@@ -119,6 +128,37 @@ public class InicioSesion extends JFrame {
 
         registroFrame.setVisible(true);
     }
+
+public void guardarUsuarioEnArchivo(String usuario, String contrasena) {
+        try (FileWriter writer = new FileWriter(archivoUsuarios, true)) {
+            writer.write(usuario + ":" + contrasena + "\n");
+        } catch (IOException e) {
+            System.out.println("Error al guardar el usuario en el archivo.");
+            e.printStackTrace();
+        }
+    }
+
+       public void cargarUsuarios() {
+        File archivo = new File(archivoUsuarios);
+        if (!archivo.exists()) {
+            return; // Si el archivo no existe, no hay usuarios que cargar
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                String[] partes = linea.split(":");
+                if (partes.length == 2) {
+                    usuarios.put(partes[0], partes[1]);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error al cargar los usuarios desde el archivo.");
+            e.printStackTrace();
+        }
+    }
+
+
 
     public boolean isInicioSesionExitoso() {
         return inicioSesionExitoso;
