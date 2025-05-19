@@ -1,0 +1,4 @@
+Nombre: Celular
+Descripción: Iphone 10
+Precio: 500.0
+Cantidad en stock: 20

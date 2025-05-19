@@ -1,4 +1,8 @@
+package Vista;
 import javax.swing.*;
+
+import Modelo.Productos;
+import Controlador.GestionFacturas;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileWriter;

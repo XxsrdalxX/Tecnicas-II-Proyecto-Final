@@ -1,4 +1,8 @@
+package Controlador;
 import java.util.ArrayList;
+
+import Modelo.Facturas;
+
 import java.io.*;
 
 public class GestionFacturas implements Facturas {
