@@ -32,7 +32,7 @@ public class VentanaInventario extends JFrame {
 
         // Botón para ver facturas del día
         JButton btnVerFacturasDelDia = new JButton("Ver Facturas del Día");
-        btnVerFacturasDelDia.addActionListener(e -> mostrarFacturas());
+        btnVerFacturasDelDia.addActionListener(e -> mostrarFacturasDelDia());
         panelBotones.add(btnVerFacturasDelDia);
 
         // Botón para agregar producto
@@ -62,10 +62,11 @@ public class VentanaInventario extends JFrame {
 
         // Botón para ver facturas
         JButton btnVerFacturas = new JButton("Ver Facturas");
-        btnVerFacturas.addActionListener(e -> mostrarFacturas());
+        btnVerFacturas.addActionListener(e -> mostrarFacturasTodas());
         panelBotones.add(btnVerFacturas);
 
         add(panelBotones, BorderLayout.SOUTH);
+        mostrarProductos();
     }
 
     // Métodos para manejar el inventario
@@ -236,19 +237,31 @@ reescribirArchivoProductos();
         }
     }
 
-    public void mostrarFacturas() {
-        StringBuilder sb = new StringBuilder();
-        for (String factura : gestorFacturas.getFacturas()) {
-            sb.append(factura).append("\n\n");
-        }
-
-        if (sb.length() == 0) {
-            JOptionPane.showMessageDialog(this, "No hay facturas generadas hoy.", "Facturas del Día",
-                    JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, sb.toString(), "Facturas del Día", JOptionPane.INFORMATION_MESSAGE);
-        }
+    public void mostrarFacturasDelDia() {
+    StringBuilder sb = new StringBuilder();
+    for (String factura : gestorFacturas.getFacturasSesion()) {
+        sb.append(factura).append("\n\n");
     }
+    if (sb.length() == 0) {
+        JOptionPane.showMessageDialog(this, "No hay facturas generadas en esta sesión.", "Facturas del Día",
+                JOptionPane.INFORMATION_MESSAGE);
+    } else {
+        JOptionPane.showMessageDialog(this, sb.toString(), "Facturas del Día", JOptionPane.INFORMATION_MESSAGE);
+    }
+}
+
+    public void mostrarFacturasTodas() {
+    StringBuilder sb = new StringBuilder();
+    for (String factura : gestorFacturas.getFacturasTodas()) {
+        sb.append(factura).append("\n\n");
+    }
+    if (sb.length() == 0) {
+        JOptionPane.showMessageDialog(this, "No hay facturas registradas.", "Todas las Facturas",
+                JOptionPane.INFORMATION_MESSAGE);
+    } else {
+        JOptionPane.showMessageDialog(this, sb.toString(), "Todas las Facturas", JOptionPane.INFORMATION_MESSAGE);
+    }
+}
 
     private void guardarProductosEnArchivo(String nombre, String descripcion, double precio, int cantidad) {
         try (FileWriter writer = new FileWriter(Productos, true)) {

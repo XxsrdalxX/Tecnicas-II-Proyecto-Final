@@ -1,0 +1,4 @@
+Producto: Celular
+Cantidad: 2
+Total: $4000.0
+---
